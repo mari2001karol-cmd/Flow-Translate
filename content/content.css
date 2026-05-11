@@ -1,0 +1,139 @@
+/* ==============================================
+   Flow Translate - Content Script Styles
+   
+   Estilos injetados nas páginas web para:
+   - Tooltip de tradução flutuante
+   - Highlight de palavras salvas
+   
+   IMPORTANTE: Todos os seletores usam o prefixo "ft-"
+   para evitar conflitos com CSS da página host.
+   ============================================== */
+
+/* ---- HIGHLIGHT de palavras salvas ---- */
+.ft-highlight {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.6) !important;
+  border-radius: 2px !important;
+  padding: 0 2px !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.ft-highlight:hover {
+  background-color: rgba(59, 130, 246, 0.35) !important;
+}
+
+/* ---- TOOLTIP flutuante ---- */
+#ft-tooltip {
+  position: absolute;
+  z-index: 2147483647 !important; /* Máximo z-index possível */
+  min-width: 200px;
+  max-width: 320px;
+  background: #1e293b !important;
+  border: 1px solid rgba(99, 102, 241, 0.3) !important;
+  border-radius: 10px !important;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(99, 102, 241, 0.15) !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  color: #f1f5f9 !important;
+  animation: ft-fadeIn 0.2s ease !important;
+  overflow: hidden !important;
+}
+
+/* Header do tooltip */
+.ft-tooltip-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 8px 12px !important;
+  background: rgba(99, 102, 241, 0.1) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.ft-tooltip-word {
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  color: #818cf8 !important;
+  max-width: 240px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.ft-tooltip-close {
+  background: none !important;
+  border: none !important;
+  color: #64748b !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  padding: 2px 4px !important;
+  border-radius: 4px !important;
+  line-height: 1 !important;
+  transition: all 0.15s ease !important;
+}
+
+.ft-tooltip-close:hover {
+  color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
+/* Body do tooltip */
+.ft-tooltip-body {
+  padding: 10px 12px !important;
+}
+
+.ft-tooltip-translation {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 14px !important;
+  color: #e2e8f0 !important;
+  line-height: 1.5 !important;
+  word-wrap: break-word !important;
+}
+
+.ft-tooltip-error {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  color: #f87171 !important;
+  font-style: italic !important;
+}
+
+/* Botão salvar no tooltip */
+.ft-tooltip-save {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  margin-top: 8px !important;
+  padding: 6px 12px !important;
+  font-family: inherit !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #94a3b8 !important;
+  background: rgba(51, 65, 85, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.ft-tooltip-save:hover {
+  color: #22d3ee !important;
+  border-color: rgba(6, 182, 212, 0.4) !important;
+  background: rgba(6, 182, 212, 0.1) !important;
+}
+
+/* ---- ANIMAÇÃO ---- */
+@keyframes ft-fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
