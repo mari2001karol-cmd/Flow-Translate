@@ -408,8 +408,27 @@ async function saveWordFromTooltip(word, translation, sourceLang, targetLang) {
       });
     }
 
-    const defaultDeck = decks[0];
-    const alreadyExists = defaultDeck.cards.some(
+    const deckOptions = decks
+  .map((deck, index) => `${index + 1} - ${deck.name}`)
+  .join('\n');
+
+const selected = prompt(
+  `Escolha um baralho:\n\n${deckOptions}`
+);
+
+const selectedIndex = Number(selected) - 1;
+
+if (
+  isNaN(selectedIndex) ||
+  selectedIndex < 0 ||
+  selectedIndex >= decks.length
+) {
+  updateTooltipError('Baralho inválido');
+  return;
+}
+
+const selectedDeck = decks[selectedIndex];
+    const alreadyExists = selectedDeck.cards.some(
       card => card.front.toLowerCase() === word.toLowerCase()
         && card.sourceLang === sourceLang
         && card.targetLang === targetLang
@@ -420,7 +439,7 @@ async function saveWordFromTooltip(word, translation, sourceLang, targetLang) {
       return;
     }
 
-    defaultDeck.cards.push({
+    selectedDeck.cards.push({
       id: generateId(),
       front: word,
       back: translation,
