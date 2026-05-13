@@ -352,8 +352,9 @@ async function handleSaveToDeck() {
  * (Será implementada em fase posterior - por enquanto mostra toast)
  */
 function handleManageDecks() {
-  // TODO: Implementar página de gerenciamento de baralhos (decks.html)
-  showToast('Gerenciador de baralhos em breve!', 'success');
+ chrome.tabs.create({
+  url: chrome.runtime.getURL('popup/decks.html')
+});
 }
 
 // ============================================

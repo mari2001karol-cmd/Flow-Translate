@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meus Baralhos</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      padding: 20px;
+      min-width: 300px;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .deck {
+      background: #1e293b;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .deck-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .deck-count {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    #create-deck-btn {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>📚 Meus Baralhos</h1>
+
+  <div id="decks-container"></div>
+
+  <button id="create-deck-btn">
+    + Novo Baralho
+  </button>
+
+  <script src="decks.js"></script>
+</body>
+</html>
