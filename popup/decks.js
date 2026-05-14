@@ -25,13 +25,33 @@ async function renderDecks() {
 
     deckElement.className = 'deck';
 
-    deckElement.innerHTML = `
-      <div class="deck-name">${deck.name}</div>
-      <div class="deck-count">
-        ${deck.cards.length} cards
-      </div>
-    `;
+     deckElement.innerHTML = `
+   <div class="deck-name">${deck.name}</div>
 
+   <div class="deck-count">
+     ${deck.cards.length} cards
+   </div>
+
+   <button class="delete-deck-btn">
+     🗑️ Excluir
+   </button>
+ `;
+
+  const deleteBtn = deckElement.querySelector('.delete-deck-btn');
+
+ deleteBtn.addEventListener('click', async () => {
+   const confirmDelete = confirm(`Excluir o baralho "${deck.name}"?`);
+
+   if (!confirmDelete) return;
+
+   const updatedDecks = decks.filter(d => d.id !== deck.id);
+
+   await chrome.storage.local.set({
+     decks: updatedDecks
+   });
+
+   renderDecks();
+ });
     decksContainer.appendChild(deckElement);
   });
 }
