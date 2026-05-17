@@ -1,6 +1,6 @@
 const decksContainer = document.getElementById('decks-container');
 const createDeckBtn = document.getElementById('create-deck-btn');
-
+const startReviewBtn = document.getElementById('start-review-btn');
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
@@ -79,3 +79,8 @@ createDeckBtn.addEventListener('click', async () => {
 function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
+startReviewBtn.addEventListener('click', () => {
+  chrome.tabs.create({
+    url: chrome.runtime.getURL('popup/review.html')
+  });
+});
