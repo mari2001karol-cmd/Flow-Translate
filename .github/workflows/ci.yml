@@ -1,0 +1,171 @@
+# ============================================================
+# Flow Translate - CI Pipeline
+# ============================================================
+#
+# Workflow de Integração Contínua para validar o código
+# a cada push e pull request.
+#
+# Jobs executados:
+#   1. lint     → ESLint em todos os arquivos JavaScript
+#   2. validate → Validação estrutural do manifest.json
+#
+# Passo a passo para identificação da solução:
+#   - Extensões Chrome não possuem build step (vanilla JS),
+#     então o foco da CI é qualidade de código (lint) e
+#     integridade da configuração (manifest).
+#   - Usamos Node.js 20 LTS como runtime do CI.
+#   - npm ci é preferido ao npm install em CI porque:
+#     a) Respeita exatamente o package-lock.json (builds reproduzíveis)
+#     b) É mais rápido (não atualiza o lockfile)
+#     c) Falha se houver inconsistência no lockfile
+# ============================================================
+
+# ----------------------------------------------------------
+# name: Nome do workflow exibido na aba "Actions" do GitHub.
+# ----------------------------------------------------------
+name: CI
+
+# ----------------------------------------------------------
+# on: Define os GATILHOS que iniciam a execução do workflow.
+#
+# push:
+#   branches: [main, develop]
+#     → Executa quando há push direto nestas branches.
+#
+# pull_request:
+#   branches: [main]
+#     → Executa quando um PR é aberto/atualizado com target main.
+#
+# workflow_dispatch:
+#     → Permite execução manual via botão "Run workflow" no GitHub.
+# ----------------------------------------------------------
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+# ----------------------------------------------------------
+# jobs: Define os trabalhos paralelos que serão executados.
+#       Cada job roda em sua própria VM (runner).
+# ----------------------------------------------------------
+jobs:
+
+  # ========================================================
+  # JOB 1: LINT
+  # Executa ESLint em todos os arquivos JavaScript do projeto.
+  # ========================================================
+  lint:
+    # ----------------------------------------------------------
+    # name: Nome amigável exibido na UI do GitHub Actions.
+    # ----------------------------------------------------------
+    name: 🔍 ESLint
+
+    # ----------------------------------------------------------
+    # runs-on: Define o sistema operacional da VM do runner.
+    # ubuntu-latest → Ubuntu LTS mais recente disponível.
+    # É o runner mais rápido e barato do GitHub Actions.
+    # ----------------------------------------------------------
+    runs-on: ubuntu-latest
+
+    # ----------------------------------------------------------
+    # steps: Sequência de passos executados no job.
+    #        Cada step pode ser uma action reutilizável (uses)
+    #        ou um comando shell (run).
+    # ----------------------------------------------------------
+    steps:
+      # --------------------------------------------------------
+      # Step 1: Checkout do código
+      # actions/checkout@v4 clona o repositório no runner.
+      #
+      # Parâmetros implícitos:
+      #   repository: ${{ github.repository }} (repo atual)
+      #   ref: ${{ github.ref }} (branch/commit do evento)
+      #   fetch-depth: 1 (shallow clone, mais rápido)
+      # --------------------------------------------------------
+      - name: 📥 Checkout do código
+        uses: actions/checkout@v4
+
+      # --------------------------------------------------------
+      # Step 2: Setup Node.js
+      # actions/setup-node@v4 instala a versão especificada do
+      # Node.js e configura o PATH.
+      #
+      # node-version: '20' → Node.js 20 LTS (Jod)
+      # cache: 'npm' → Cacheia ~/.npm para acelerar npm ci
+      #   O cache é baseado no hash do package-lock.json.
+      #   Se o lockfile não mudou, restaura do cache (skip download).
+      # --------------------------------------------------------
+      - name: 🟢 Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # --------------------------------------------------------
+      # Step 3: Instalar dependências
+      # npm ci (clean install):
+      #   - Remove node_modules existente antes de instalar
+      #   - Instala versões EXATAS do package-lock.json
+      #   - Falha se package-lock.json estiver desatualizado
+      #   - Não modifica o lockfile (ideal para CI)
+      # --------------------------------------------------------
+      - name: 📦 Instalar dependências
+        run: npm ci
+
+      # --------------------------------------------------------
+      # Step 4: Executar ESLint
+      # npm run lint executa o script "lint" do package.json:
+      #   → eslint .
+      #
+      # O "." instrui o ESLint a analisar recursivamente
+      # todos os arquivos .js a partir da raiz do projeto.
+      #
+      # Exit codes do ESLint:
+      #   0 = sem erros
+      #   1 = erros encontrados (falha o step)
+      #   2 = erro de configuração
+      # --------------------------------------------------------
+      - name: 🔍 Executar ESLint
+        run: npm run lint
+
+  # ========================================================
+  # JOB 2: VALIDATE MANIFEST
+  # Valida a estrutura e integridade do manifest.json.
+  # ========================================================
+  validate:
+    name: 📋 Validar Manifest
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout do código
+        uses: actions/checkout@v4
+
+      # --------------------------------------------------------
+      # Setup Node.js necessário porque o script de validação
+      # é um módulo ES (import/export) que precisa do Node.js.
+      # Não precisamos de cache aqui pois não instalamos
+      # dependências npm neste job.
+      # --------------------------------------------------------
+      - name: 🟢 Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # --------------------------------------------------------
+      # Executa o script de validação customizado.
+      # node scripts/validate-manifest.js
+      #
+      # O script:
+      #   1. Parseia o JSON
+      #   2. Checa campos obrigatórios (manifest_version, name, version)
+      #   3. Valida permissões contra lista de permissões Chrome válidas
+      #   4. Verifica se arquivos referenciados existem no disco
+      #   5. Checa boas práticas (description, CSP, etc.)
+      #
+      # Retorna exit code 1 se houver erros → falha o job.
+      # --------------------------------------------------------
+      - name: 📋 Validar manifest.json
+        run: node scripts/validate-manifest.js
