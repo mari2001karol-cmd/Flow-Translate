@@ -4,7 +4,7 @@
   "description": "Extensão Chrome para estudo de idiomas com tradutor integrado e flashcards.",
   "private": true,
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "validate:manifest": "node scripts/validate-manifest.js"
   },
