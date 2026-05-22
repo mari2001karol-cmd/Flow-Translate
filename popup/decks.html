@@ -1,66 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meus Baralhos</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meus Baralhos</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      padding: 20px;
-      min-width: 300px;
-    }
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: white;
+        padding: 20px;
+        min-width: 300px;
+      }
 
-    h1 {
-      font-size: 22px;
-      margin-bottom: 20px;
-    }
+      h1 {
+        font-size: 22px;
+        margin-bottom: 20px;
+      }
 
-    .deck {
-      background: #1e293b;
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
+      .deck {
+        background: #1e293b;
+        padding: 12px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+      }
 
-    .deck-name {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
+      .deck-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
 
-    .deck-count {
-      color: #94a3b8;
-      font-size: 14px;
-    }
+      .deck-count {
+        color: #94a3b8;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
 
-    #create-deck-btn {
-      margin-top: 15px;
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-  </style>
-</head>
+      .deck-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
 
-<body>
+      button {
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+      }
 
-  <h1>📚 Meus Baralhos</h1>
+      #create-deck-btn,
+      #start-review-btn,
+      #export-btn,
+      #import-btn {
+        width: 100%;
+        margin-top: 10px;
+      }
 
-  <div id="decks-container"></div>
+      .reset-deck-btn {
+        background: #f59e0b;
+        color: white;
+      }
 
-  <button id="create-deck-btn">
-    + Novo Baralho
-    <button id="start-review-btn">
-  ▶️ Iniciar Revisão
-</button>
-  </button>
+      .delete-deck-btn {
+        background: #ef4444;
+        color: white;
+      }
 
-  <script src="decks.js"></script>
-</body>
+      .rename-deck-btn {
+        background: #3b82f6;
+        color: white;
+      }
+
+      #import-file {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>📚 Meus Baralhos</h1>
+
+    <div id="decks-container"></div>
+
+    <button id="create-deck-btn">+ Novo Baralho</button>
+
+    <button id="start-review-btn">▶️ Iniciar Revisão</button>
+
+    <button id="export-btn">📤 Exportar Baralhos</button>
+
+    <button id="import-btn">📥 Importar Baralhos</button>
+
+    <input type="file" id="import-file" accept=".json" />
+
+    <script src="decks.js"></script>
+  </body>
 </html>
