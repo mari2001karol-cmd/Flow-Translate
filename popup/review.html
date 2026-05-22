@@ -1,159 +1,251 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Revisão de Flashcards</title>
+  <head>
+    <meta charset="UTF-8" />
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      padding: 20px;
-      min-width: 320px;
-      text-align: center;
-    }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    h1 {
-      margin-bottom: 25px;
-    }
+    <title>Revisão de Flashcards</title>
 
-    .card-container {
-  perspective: 1200px;
-  margin-bottom: 35px;
-}
+    <style>
+      body {
+        font-family: Arial, sans-serif;
 
-.card {
-  position: relative;
-  width: 100%;
-  max-width: 320px;
-  height: 170px;
-  margin: 0 auto;
-  transform-style: preserve-3d;
-  transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
-}
+        background:
+          radial-gradient(
+            circle at top,
+            rgba(99, 102, 241, 0.15),
+            transparent 35%
+          ),
+          #0f172a;
 
-.card.flipped {
-  transform: rotateY(180deg);
-}
+        color: white;
 
-.card-face {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 18px;
-  backface-visibility: hidden;
+        padding: 28px 20px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+        min-width: 320px;
 
-  padding: 20px;
-  text-align: center;
+        text-align: center;
+      }
 
-  overflow: hidden;
+      h1 {
+        margin-bottom: 18px;
 
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.45),
-    0 0 25px rgba(236, 72, 153, 0.25);
+        font-size: 28px;
 
-  background: linear-gradient(
-    135deg,
-    #1e1b4b,
-    #312e81,
-    #4c1d95
-  );
-}
+        color: #dbeafe;
 
-.card-front {
-  border: 1px solid rgba(236, 72, 153, 0.35);
-}
+        text-shadow: 0 0 18px rgba(96, 165, 250, 0.35);
+      }
 
-.card-back {
-  transform: rotateY(180deg);
+      #review-progress {
+        color: #94a3b8;
 
-  background: linear-gradient(
-    135deg,
-    #4c1d95,
-    #831843,
-    #be185d
-  );
+        margin-bottom: 35px;
 
-  border: 1px solid rgba(244, 114, 182, 0.5);
-}
+        font-size: 15px;
+      }
 
-    .word {
-    font-size: 30px;
-    font-weight: bold;
-    color: white;
-    text-shadow: 0 0 12px rgba(236, 72, 153, 0.6);
-   }
+      .card-container {
+        perspective: 1200px;
 
-    .translation {
-     font-size: 26px;
-     color: #fbcfe8;
-     font-weight: bold;
-     text-shadow: 0 0 14px rgba(244, 114, 182, 0.7);
-    }
+        display: flex;
 
-    button {
-      padding: 10px 18px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-  </style>
-</head>
+        justify-content: center;
 
-<body>
+        align-items: center;
 
-  <h1>📚 Revisão</h1>
+        width: 100%;
 
-  <p id="review-progress">
-  0 cards disponíveis
-</p>
+        margin-bottom: 60px;
+      }
 
-  <div class="card-container">
+      .card {
+        position: relative;
 
-  <div class="card" id="flashcard">
+        width: 340px;
 
-    <div class="card-face card-front">
-      <div id="word" class="word">
-        Carregando...
+        height: 190px;
+
+        margin: 0 auto;
+
+        transform-style: preserve-3d;
+
+        transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+      }
+
+      .card.flipped {
+        transform: rotateY(180deg);
+      }
+
+      .card-face {
+        position: absolute;
+
+        width: 100%;
+        height: 100%;
+
+        border-radius: 20px;
+
+        backface-visibility: hidden;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        padding: 25px;
+
+        text-align: center;
+
+        overflow: hidden;
+
+        box-sizing: border-box;
+
+        box-shadow:
+          0 12px 35px rgba(0, 0, 0, 0.45),
+          0 0 30px rgba(99, 102, 241, 0.18);
+
+        background: linear-gradient(135deg, #1e293b, #1e3a8a, #2563eb);
+      }
+
+      .card-front {
+        border: 1px solid rgba(96, 165, 250, 0.28);
+      }
+
+      .card-back {
+        transform: rotateY(180deg);
+
+        background: linear-gradient(135deg, #172554, #1d4ed8, #2563eb);
+
+        border: 1px solid rgba(147, 197, 253, 0.35);
+      }
+
+      .word {
+        width: 100%;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        text-align: center;
+
+        font-size: 32px;
+
+        font-weight: bold;
+
+        color: white;
+
+        line-height: 1.3;
+
+        text-shadow: 0 0 16px rgba(96, 165, 250, 0.35);
+      }
+
+      .translation {
+        width: 100%;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        text-align: center;
+
+        font-size: 28px;
+
+        font-weight: bold;
+
+        color: #dbeafe;
+
+        line-height: 1.3;
+
+        text-shadow: 0 0 18px rgba(147, 197, 253, 0.35);
+      }
+
+      button {
+        padding: 12px 22px;
+
+        border: none;
+
+        border-radius: 10px;
+
+        cursor: pointer;
+
+        font-weight: bold;
+
+        font-size: 15px;
+
+        transition: 0.2s ease;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+      }
+
+      #show-answer-btn {
+        background: linear-gradient(135deg, #4f46e5, #2563eb);
+
+        color: white;
+
+        margin-top: 30px;
+
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.25);
+      }
+
+      #review-actions {
+        margin-top: 30px !important;
+      }
+
+      #hard-btn {
+        background: #ef4444;
+
+        color: white;
+      }
+
+      #medium-btn {
+        background: #f59e0b;
+
+        color: white;
+      }
+
+      #easy-btn {
+        background: #10b981;
+
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>📚 Revisão</h1>
+
+    <p id="review-progress">0 cards disponíveis</p>
+
+    <div class="card-container">
+      <div class="card" id="flashcard">
+        <div class="card-face card-front">
+          <div id="word" class="word">Carregando...</div>
+        </div>
+
+        <div class="card-face card-back">
+          <div id="translation" class="translation"></div>
+        </div>
       </div>
     </div>
 
-    <div class="card-face card-back">
-      <div id="translation" class="translation"></div>
+    <button id="show-answer-btn">Mostrar resposta</button>
+
+    <div id="review-actions" style="display: none">
+      <button id="hard-btn">😞 Difícil</button>
+
+      <button id="medium-btn">🙂 Médio</button>
+
+      <button id="easy-btn">😄 Fácil</button>
     </div>
 
-  </div>
-
-</div>
-
-<button id="show-answer-btn">
-  Mostrar resposta
-</button>
-
-<div id="review-actions" style="display: none; margin-top: 20px;">
-
-  <button id="hard-btn">
-    😞 Difícil
-  </button>
-
-  <button id="medium-btn">
-    🙂 Médio
-  </button>
-
-  <button id="easy-btn">
-    😄 Fácil
-  </button>
-
-</div>
-
-  <script src="review.js"></script>
-</body>
+    <script src="review.js"></script>
+  </body>
 </html>

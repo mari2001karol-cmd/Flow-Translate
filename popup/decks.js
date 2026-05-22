@@ -10,10 +10,58 @@ const importBtn = document.getElementById("import-btn");
 
 const importFile = document.getElementById("import-file");
 
+// MODAL
+
+const modalOverlay = document.getElementById("modal-overlay");
+
+const modalTitle = document.getElementById("modal-title");
+
+const modalMessage = document.getElementById("modal-message");
+
+const modalInput = document.getElementById("modal-input");
+
+const modalCancelBtn = document.getElementById("modal-cancel-btn");
+
+const modalConfirmBtn = document.getElementById("modal-confirm-btn");
+
 document.addEventListener("DOMContentLoaded", init);
 
 async function init() {
   await renderDecks();
+}
+
+function openModal({
+  title,
+  message = "",
+  input = false,
+  inputValue = "",
+  confirmText = "Confirmar",
+  danger = false,
+  onConfirm,
+}) {
+  modalTitle.textContent = title;
+
+  modalMessage.textContent = message;
+
+  modalInput.style.display = input ? "block" : "none";
+
+  modalInput.value = inputValue;
+
+  modalConfirmBtn.textContent = confirmText;
+
+  modalConfirmBtn.className = danger ? "danger-btn" : "confirm-btn";
+
+  modalOverlay.style.display = "flex";
+
+  modalCancelBtn.onclick = () => {
+    modalOverlay.style.display = "none";
+  };
+
+  modalConfirmBtn.onclick = async () => {
+    await onConfirm(modalInput.value);
+
+    modalOverlay.style.display = "none";
+  };
 }
 
 async function renderDecks() {
@@ -24,7 +72,7 @@ async function renderDecks() {
   decksContainer.innerHTML = "";
 
   if (decks.length === 0) {
-    decksContainer.innerHTML = `<p>Nenhum baralho criado ainda.</p>`;
+    decksContainer.innerHTML = "<p>Nenhum baralho criado ainda.</p>";
 
     return;
   }
@@ -67,52 +115,73 @@ async function renderDecks() {
     const deleteBtn = deckElement.querySelector(".delete-deck-btn");
 
     // RENOMEAR
-    renameBtn.addEventListener("click", async () => {
-      const newName = prompt("Novo nome do baralho:", deck.name);
 
-      if (!newName || !newName.trim()) {
-        return;
-      }
+    renameBtn.addEventListener("click", () => {
+      openModal({
+        title: "Renomear Baralho",
+        input: true,
+        inputValue: deck.name,
 
-      deck.name = newName.trim();
+        onConfirm: async (value) => {
+          if (!value.trim()) return;
 
-      await chrome.storage.local.set({
-        decks: decks,
+          deck.name = value.trim();
+
+          await chrome.storage.local.set({
+            decks,
+          });
+
+          renderDecks();
+        },
       });
-
-      renderDecks();
     });
 
     // REDEFINIR
-    resetBtn.addEventListener("click", async () => {
-      const confirmReset = confirm(
-        `Apagar todos os cards do baralho "${deck.name}"?`,
-      );
 
-      if (!confirmReset) return;
+    resetBtn.addEventListener("click", () => {
+      openModal({
+        title: "Redefinir Baralho",
 
-      deck.cards = [];
+        message: "Todos os cards serão apagados.",
 
-      await chrome.storage.local.set({
-        decks: decks,
+        confirmText: "Redefinir",
+
+        danger: true,
+
+        onConfirm: async () => {
+          deck.cards = [];
+
+          await chrome.storage.local.set({
+            decks,
+          });
+
+          renderDecks();
+        },
       });
-
-      renderDecks();
     });
 
     // EXCLUIR
-    deleteBtn.addEventListener("click", async () => {
-      const confirmDelete = confirm(`Excluir o baralho "${deck.name}"?`);
 
-      if (!confirmDelete) return;
+    deleteBtn.addEventListener("click", () => {
+      openModal({
+        title: "Excluir Baralho",
 
-      const updatedDecks = decks.filter((d) => d.id !== deck.id);
+        message: "Essa ação não poderá ser desfeita.",
 
-      await chrome.storage.local.set({
-        decks: updatedDecks,
+        confirmText: "Excluir",
+
+        danger: true,
+
+        onConfirm: async () => {
+          const updatedDecks = decks.filter((d) => d.id !== deck.id);
+
+          await chrome.storage.local.set({
+            decks: updatedDecks,
+          });
+
+          renderDecks();
+        },
       });
-
-      renderDecks();
     });
 
     decksContainer.appendChild(deckElement);
@@ -120,35 +189,49 @@ async function renderDecks() {
 }
 
 // CRIAR BARALHO
-createDeckBtn.addEventListener("click", async () => {
-  const deckName = prompt("Nome do novo baralho");
 
-  if (!deckName) return;
+createDeckBtn.addEventListener("click", () => {
+  openModal({
+    title: "Novo Baralho",
 
-  const data = await chrome.storage.local.get(["decks"]);
+    input: true,
 
-  const decks = data.decks || [];
+    onConfirm: async (value) => {
+      if (!value.trim()) return;
 
-  decks.push({
-    id: generateId(),
-    name: deckName,
-    createdAt: new Date().toISOString(),
-    cards: [],
+      const data = await chrome.storage.local.get(["decks"]);
+
+      const decks = data.decks || [];
+
+      decks.push({
+        id: generateId(),
+
+        name: value.trim(),
+
+        createdAt: new Date().toISOString(),
+
+        cards: [],
+      });
+
+      await chrome.storage.local.set({
+        decks,
+      });
+
+      renderDecks();
+    },
   });
-
-  await chrome.storage.local.set({ decks });
-
-  renderDecks();
 });
 
-// INICIAR REVISÃO
+// REVISÃO
+
 startReviewBtn.addEventListener("click", () => {
   chrome.tabs.create({
     url: chrome.runtime.getURL("popup/review.html"),
   });
 });
 
-// EXPORTAR JSON
+// EXPORTAR
+
 exportBtn.addEventListener("click", async () => {
   const data = await chrome.storage.local.get(["decks"]);
 
@@ -173,7 +256,8 @@ exportBtn.addEventListener("click", async () => {
   URL.revokeObjectURL(url);
 });
 
-// IMPORTAR JSON
+// IMPORTAR
+
 importBtn.addEventListener("click", () => {
   importFile.click();
 });
@@ -188,26 +272,18 @@ importFile.addEventListener("change", async (event) => {
 
     const importedDecks = JSON.parse(text);
 
-    // VALIDAÇÃO
     if (!Array.isArray(importedDecks)) {
-      alert("Arquivo inválido");
-      return;
+      throw new Error();
     }
 
     importedDecks.forEach((deck) => {
       if (!deck.name || !Array.isArray(deck.cards)) {
-        throw new Error("Estrutura inválida");
+        throw new Error();
       }
 
-      // NOVO ID PARA O DECK
       deck.id = generateId();
 
       deck.cards.forEach((card) => {
-        if (!card.front || !card.back) {
-          throw new Error("Card inválido");
-        }
-
-        // NOVO ID PARA CADA CARD
         card.id = generateId();
       });
     });
@@ -222,17 +298,20 @@ importFile.addEventListener("change", async (event) => {
       decks: updatedDecks,
     });
 
-    alert("Baralhos importados com sucesso!");
-
     renderDecks();
-  } catch (error) {
-    console.error(error);
+  } catch {
+    openModal({
+      title: "Erro",
 
-    alert("Erro ao importar arquivo JSON");
+      message: "Arquivo JSON inválido.",
+
+      confirmText: "OK",
+
+      onConfirm: async () => {},
+    });
   }
 });
 
-// GERAR ID
 function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }

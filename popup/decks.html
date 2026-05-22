@@ -2,53 +2,84 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Meus Baralhos</title>
 
     <style>
       body {
         font-family: Arial, sans-serif;
+
         background: #0f172a;
+
         color: white;
+
         padding: 20px;
-        min-width: 300px;
+
+        min-width: 320px;
       }
 
       h1 {
-        font-size: 22px;
+        font-size: 24px;
+
         margin-bottom: 20px;
+
+        text-align: center;
       }
 
       .deck {
         background: #1e293b;
-        padding: 12px;
-        border-radius: 10px;
-        margin-bottom: 10px;
+
+        padding: 14px;
+
+        border-radius: 12px;
+
+        margin-bottom: 12px;
+
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
       }
 
       .deck-name {
         font-weight: bold;
-        margin-bottom: 5px;
+
+        font-size: 18px;
+
+        margin-bottom: 6px;
       }
 
       .deck-count {
         color: #94a3b8;
+
         font-size: 14px;
-        margin-bottom: 10px;
+
+        margin-bottom: 12px;
       }
 
       .deck-actions {
         display: flex;
-        gap: 8px;
+
         flex-wrap: wrap;
+
+        gap: 8px;
       }
 
       button {
-        padding: 10px;
         border: none;
+
         border-radius: 8px;
-        cursor: pointer;
+
+        padding: 10px 12px;
+
         font-weight: bold;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+      }
+
+      button:hover {
+        transform: translateY(-1px);
       }
 
       #create-deck-btn,
@@ -56,26 +87,144 @@
       #export-btn,
       #import-btn {
         width: 100%;
+
         margin-top: 10px;
       }
 
-      .reset-deck-btn {
-        background: #f59e0b;
+      #create-deck-btn {
+        background: #2563eb;
+
         color: white;
       }
 
-      .delete-deck-btn {
-        background: #ef4444;
+      #start-review-btn {
+        background: #4f46e5;
+
+        color: white;
+      }
+
+      #export-btn {
+        background: #0ea5e9;
+
+        color: white;
+      }
+
+      #import-btn {
+        background: #14b8a6;
+
         color: white;
       }
 
       .rename-deck-btn {
         background: #3b82f6;
+
+        color: white;
+      }
+
+      .reset-deck-btn {
+        background: #f59e0b;
+
+        color: white;
+      }
+
+      .delete-deck-btn {
+        background: #ef4444;
+
         color: white;
       }
 
       #import-file {
         display: none;
+      }
+
+      /* MODAL */
+
+      .modal-overlay {
+        position: fixed;
+
+        inset: 0;
+
+        background: rgba(0, 0, 0, 0.6);
+
+        display: none;
+
+        justify-content: center;
+
+        align-items: center;
+
+        z-index: 999;
+      }
+
+      .modal {
+        background: #1e293b;
+
+        padding: 20px;
+
+        border-radius: 14px;
+
+        width: 90%;
+
+        max-width: 320px;
+
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+      }
+
+      .modal h2 {
+        margin-top: 0;
+
+        margin-bottom: 14px;
+
+        font-size: 20px;
+      }
+
+      .modal p {
+        color: #cbd5e1;
+
+        margin-bottom: 18px;
+      }
+
+      .modal input {
+        width: 100%;
+
+        padding: 10px;
+
+        border-radius: 8px;
+
+        border: none;
+
+        margin-bottom: 18px;
+
+        box-sizing: border-box;
+
+        background: #0f172a;
+
+        color: white;
+      }
+
+      .modal-buttons {
+        display: flex;
+
+        gap: 10px;
+
+        justify-content: flex-end;
+      }
+
+      .cancel-btn {
+        background: #475569;
+
+        color: white;
+      }
+
+      .confirm-btn {
+        background: #2563eb;
+
+        color: white;
+      }
+
+      .danger-btn {
+        background: #ef4444;
+
+        color: white;
       }
     </style>
   </head>
@@ -94,6 +243,24 @@
     <button id="import-btn">📥 Importar Baralhos</button>
 
     <input type="file" id="import-file" accept=".json" />
+
+    <!-- MODAL -->
+
+    <div class="modal-overlay" id="modal-overlay">
+      <div class="modal">
+        <h2 id="modal-title"></h2>
+
+        <p id="modal-message"></p>
+
+        <input type="text" id="modal-input" />
+
+        <div class="modal-buttons">
+          <button class="cancel-btn" id="modal-cancel-btn">Cancelar</button>
+
+          <button class="confirm-btn" id="modal-confirm-btn">Confirmar</button>
+        </div>
+      </div>
+    </div>
 
     <script src="decks.js"></script>
   </body>
