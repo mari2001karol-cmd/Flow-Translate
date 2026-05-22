@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Configurações - Flow Translate</title>
+    <link rel="stylesheet" href="popup.css" />
+    <style>
+      /* Estilos rápidos específicos para a tela de configurações ficarem bonitos */
+      body {
+        width: 100%;
+        min-height: 100vh;
+        padding: var(--space-xl);
+      }
+      .settings-card {
+        background: var(--bg-secondary);
+        padding: var(--space-xl);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-glass);
+        margin-top: var(--space-lg);
+      }
+      .setting-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--space-md) 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .setting-row:last-child {
+        border-bottom: none;
+      }
+      .save-btn {
+        margin-top: var(--space-xl);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header__title">⚙️ Configurações</h1>
+      <p class="header__subtitle">Personalize sua experiência de estudo</p>
+    </header>
+
+    <main class="settings-card">
+      <!-- Toggle do Highlight -->
+      <div class="setting-row">
+        <div>
+          <label for="highlight-toggle" style="font-weight: 600"
+            >Destaque Automático (Highlight)</label
+          >
+          <div style="font-size: 12px; color: var(--text-secondary)">
+            Destacar palavras traduzidas na página
+          </div>
+        </div>
+        <input type="checkbox" id="highlight-toggle" />
+      </div>
+
+      <!-- Cor do Highlight -->
+      <div class="setting-row">
+        <div>
+          <label for="highlight-color" style="font-weight: 600"
+            >Cor do Destaque</label
+          >
+          <div style="font-size: 12px; color: var(--text-secondary)">
+            Escolha a cor do fundo do texto
+          </div>
+        </div>
+        <input type="color" id="highlight-color" value="#3b82f6" />
+      </div>
+
+      <!-- Toggle da Tooltip -->
+      <div class="setting-row">
+        <div>
+          <label for="tooltip-toggle" style="font-weight: 600"
+            >Mostrar Balão de Tradução (Tooltip)</label
+          >
+          <div style="font-size: 12px; color: var(--text-secondary)">
+            Exibir tradução rápida ao selecionar um texto
+          </div>
+        </div>
+        <input type="checkbox" id="tooltip-toggle" />
+      </div>
+
+      <button id="save-settings-btn" class="translator__translate-btn save-btn">
+        <span>Salvar Configurações</span>
+      </button>
+    </main>
+
+    <script src="settings.js"></script>
+  </body>
+</html>
