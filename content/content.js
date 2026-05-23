@@ -1,3 +1,5 @@
+/* eslint-env browser */
+/* global chrome */
 /**
  * Flow Translate - Content Script
  *
@@ -12,7 +14,9 @@ const PREFIX = "ft-";
 const SELECTION_DEBOUNCE = 300;
 const HIGHLIGHT_CLASS = `${PREFIX}highlight`;
 
-let tooltipElement = null;
+// Comentado temporariamente para o ESLint não reclamar de variável não usada
+// let tooltipElement = null;
+
 let debounceTimer = null;
 let savedWords = [];
 
@@ -74,7 +78,7 @@ async function initContentScript() {
 async function loadSavedWords() {
   try {
     const data = await chrome.storage.local.get(["decks"]);
-    const decks = data.decks || []; // Alterado de 'let' para 'const'
+    const decks = data.decks || [];
 
     savedWords = [];
 
@@ -170,8 +174,6 @@ function highlightSavedWords() {
 
         if (!saved) return;
 
-        // Nota: O ESLint pode reclamar do alert aqui no futuro se a regra for global,
-        // mas por enquanto focamos nos erros apontados pelo robô.
         alert(`${saved.word} = ${saved.translation}`);
       });
 
@@ -202,7 +204,6 @@ function removeHighlights() {
 // ============================================
 
 function registerSelectionListener() {
-  // Alterado para remover o argumento 'e' que não era utilizado
   document.addEventListener("mouseup", () => {
     clearTimeout(debounceTimer);
 
