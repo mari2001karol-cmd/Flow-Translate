@@ -1,5 +1,3 @@
-/* global chrome */
-
 const highlightEnabledInput = document.getElementById("highlight-enabled");
 const highlightColorInput = document.getElementById("highlight-color");
 const tooltipEnabledInput = document.getElementById("tooltip-enabled");
