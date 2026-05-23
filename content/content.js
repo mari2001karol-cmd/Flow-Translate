@@ -1,20 +1,8 @@
-/* global document, window, NodeFilter */
-/**
- * Flow Translate - Content Script
- *
- * Responsável por interagir com o DOM das páginas web:
- * - Detectar seleção de texto pelo usuário (highlight)
- * - Exibir tooltip flutuante com tradução ao selecionar texto
- * - Destacar automaticamente palavras salvas nos baralhos
- * - Exibir tradução ao clicar em palavras destacadas
- */
+/* global NodeFilter, chrome */
 
 const PREFIX = "ft-";
 const SELECTION_DEBOUNCE = 300;
 const HIGHLIGHT_CLASS = `${PREFIX}highlight`;
-
-// Comentado temporariamente para o ESLint não reclamar de variável não usada
-// let tooltipElement = null;
 
 let debounceTimer = null;
 let savedWords = [];
@@ -44,28 +32,28 @@ async function initContentScript() {
   applyHighlightColor(settings.highlightColor);
 
   chrome.storage.onChanged.addListener((changes, areaName) => {
-    if (areaName === "local") {
-      if (changes.settings) {
-        const newSettings = changes.settings.newValue;
+    if (areaName !== "local") return;
 
+    if (changes.settings) {
+      const newSettings = changes.settings.newValue;
+
+      removeHighlights();
+
+      if (newSettings.highlightEnabled) {
+        highlightSavedWords();
+      }
+
+      applyHighlightColor(newSettings.highlightColor);
+    }
+
+    if (changes.decks) {
+      loadSavedWords().then(() => {
         removeHighlights();
 
-        if (newSettings.highlightEnabled) {
+        if (settings.highlightEnabled) {
           highlightSavedWords();
         }
-
-        applyHighlightColor(newSettings.highlightColor);
-      }
-
-      if (changes.decks) {
-        loadSavedWords().then(() => {
-          removeHighlights();
-
-          if (settings.highlightEnabled) {
-            highlightSavedWords();
-          }
-        });
-      }
+      });
     }
   });
 }
@@ -82,16 +70,16 @@ async function loadSavedWords() {
     savedWords = [];
 
     decks.forEach((deck) => {
-      if (deck.cards) {
-        deck.cards.forEach((card) => {
-          savedWords.push({
-            word: card.front,
-            translation: card.back,
-            sourceLang: card.sourceLang,
-            targetLang: card.targetLang,
-          });
+      if (!deck.cards) return;
+
+      deck.cards.forEach((card) => {
+        savedWords.push({
+          word: card.front,
+          translation: card.back,
+          sourceLang: card.sourceLang,
+          targetLang: card.targetLang,
         });
-      }
+      });
     });
   } catch (error) {
     console.warn("[FlowTranslate CS] Erro:", error);
@@ -116,9 +104,8 @@ function highlightSavedWords() {
     document.body,
     NodeFilter.SHOW_TEXT,
     {
-      acceptNode: (node) => {
+      acceptNode(node) {
         const parent = node.parentElement;
-
         if (!parent) return NodeFilter.FILTER_REJECT;
 
         const tag = parent.tagName.toLowerCase();
@@ -193,7 +180,6 @@ function removeHighlights() {
 
   highlights.forEach((span) => {
     const textNode = document.createTextNode(span.textContent);
-
     span.parentNode.replaceChild(textNode, span);
   });
 }
@@ -206,7 +192,7 @@ function registerSelectionListener() {
   document.addEventListener("mouseup", () => {
     clearTimeout(debounceTimer);
 
-    debounceTimer = setTimeout(() => handleTextSelection(), SELECTION_DEBOUNCE);
+    debounceTimer = setTimeout(handleTextSelection, SELECTION_DEBOUNCE);
   });
 }
 
@@ -214,9 +200,7 @@ async function handleTextSelection() {
   const selection = window.getSelection();
   const selectedText = selection.toString().trim();
 
-  if (!selectedText || selectedText.length > 500) {
-    return;
-  }
+  if (!selectedText || selectedText.length > 500) return;
 
   try {
     const data = await chrome.storage.local.get(["sourceLang", "targetLang"]);
@@ -228,7 +212,7 @@ async function handleTextSelection() {
       targetLang: data.targetLang || "pt",
     });
 
-    if (response && response.success) {
+    if (response?.success) {
       alert(`${selectedText} = ${response.translatedText}`);
     }
   } catch (error) {
