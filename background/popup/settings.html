@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Configurações</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: white;
+        padding: 20px;
+        min-width: 320px;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .setting {
+        background: #1e293b;
+        padding: 16px;
+        border-radius: 12px;
+        margin-bottom: 14px;
+      }
+
+      .setting-title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .setting-description {
+        font-size: 14px;
+        color: #cbd5e1;
+        margin-bottom: 12px;
+      }
+
+      label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+      }
+
+      input[type="color"] {
+        width: 50px;
+        height: 35px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+      }
+
+      .save-message {
+        text-align: center;
+        color: #22c55e;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>⚙️ Configurações</h1>
+
+    <div class="setting">
+      <div class="setting-title">Highlight automático</div>
+
+      <div class="setting-description">
+        Destacar palavras salvas automaticamente nas páginas.
+      </div>
+
+      <label>
+        Habilitar
+        <input type="checkbox" id="highlight-enabled" />
+      </label>
+    </div>
+
+    <div class="setting">
+      <div class="setting-title">Cor do Highlight</div>
+
+      <div class="setting-description">
+        Escolha a cor usada para destacar palavras.
+      </div>
+
+      <label>
+        Cor
+        <input type="color" id="highlight-color" />
+      </label>
+    </div>
+
+    <div class="setting">
+      <div class="setting-title">Tooltip de tradução</div>
+
+      <div class="setting-description">
+        Mostrar tooltip ao selecionar texto.
+      </div>
+
+      <label>
+        Habilitar
+        <input type="checkbox" id="tooltip-enabled" />
+      </label>
+    </div>
+
+    <div class="save-message" id="save-message"></div>
+
+    <script src="settings.js"></script>
+  </body>
+</html>
