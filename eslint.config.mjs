@@ -1,43 +1,32 @@
-/**
- * ESLint Flat Config - Flow Translate
- */
-
 import js from "@eslint/js";
 import globals from "globals";
 
+// 🔥 FIX DEFINITIVO: define browser + chrome explicitamente
+const browserGlobals = {
+  ...globals.browser,
+  chrome: "readonly",
+  NodeFilter: "readonly",
+};
+
 export default [
-  // ============================================
-  // Ignorados globais
-  // ============================================
   {
     ignores: ["node_modules/**", "icons/**", ".git/**"],
   },
 
-  // ============================================
-  // Base recomendada
-  // ============================================
   js.configs.recommended,
 
   // ============================================
-  // POPUP (DOM + Extension API)
+  // POPUP
   // ============================================
   {
     files: ["popup/**/*.js"],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "script",
-      globals: {
-        ...globals.browser,
-      },
+      globals: browserGlobals,
     },
     rules: {
-      "no-unused-vars": [
-        "warn",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-        },
-      ],
+      "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
       "no-console": "off",
       "no-undef": "error",
       eqeqeq: ["error", "always"],
@@ -49,7 +38,7 @@ export default [
   },
 
   // ============================================
-  // BACKGROUND (Service Worker)
+  // BACKGROUND
   // ============================================
   {
     files: ["background/**/*.js"],
@@ -58,16 +47,11 @@ export default [
       sourceType: "module",
       globals: {
         ...globals.serviceworker,
+        chrome: "readonly",
       },
     },
     rules: {
-      "no-unused-vars": [
-        "warn",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-        },
-      ],
+      "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
       "no-console": "off",
       "no-undef": "error",
       eqeqeq: ["error", "always"],
@@ -79,25 +63,17 @@ export default [
   },
 
   // ============================================
-  // CONTENT SCRIPT (DOM isolado)
+  // CONTENT SCRIPT
   // ============================================
   {
     files: ["content/**/*.js"],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "script",
-      globals: {
-        ...globals.browser,
-      },
+      globals: browserGlobals,
     },
     rules: {
-      "no-unused-vars": [
-        "warn",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-        },
-      ],
+      "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
       "no-console": "off",
       "no-undef": "error",
       eqeqeq: ["error", "always"],
@@ -121,13 +97,7 @@ export default [
       },
     },
     rules: {
-      "no-unused-vars": [
-        "warn",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-        },
-      ],
+      "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
       "no-console": "off",
       "no-undef": "error",
       eqeqeq: ["error", "always"],
@@ -139,7 +109,7 @@ export default [
   },
 
   // ============================================
-  // SCRIPTS NODE (CI)
+  // SCRIPTS
   // ============================================
   {
     files: ["scripts/**/*.js"],
