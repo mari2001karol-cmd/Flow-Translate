@@ -1,5 +1,4 @@
-/* eslint-env browser */
-/* global chrome */
+/* global document, window, NodeFilter */
 /**
  * Flow Translate - Content Script
  *
