@@ -1,7 +1,11 @@
 import { describe, test, expect } from "vitest";
 
-describe("Background Translation", () => {
-  test("deve funcionar corretamente", () => {
-    expect(true).toBe(true);
+describe("Chrome Runtime Mock", () => {
+  test("deve possuir runtime.sendMessage", () => {
+    expect(chrome.runtime.sendMessage).toBeDefined();
+  });
+
+  test("deve possuir runtime.onMessage.addListener", () => {
+    expect(chrome.runtime.onMessage.addListener).toBeDefined();
   });
 });

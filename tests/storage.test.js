@@ -1,7 +1,11 @@
 import { describe, test, expect } from "vitest";
 
-describe("Storage Utils", () => {
-  test("deve funcionar corretamente", () => {
-    expect(true).toBe(true);
+describe("Chrome Storage Mock", () => {
+  test("deve possuir storage.local.get", () => {
+    expect(chrome.storage.local.get).toBeDefined();
+  });
+
+  test("deve possuir storage.local.set", () => {
+    expect(chrome.storage.local.set).toBeDefined();
   });
 });
