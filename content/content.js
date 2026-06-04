@@ -1,5 +1,3 @@
-/* global NodeFilter, chrome */
-
 const PREFIX = "ft-";
 const SELECTION_DEBOUNCE = 300;
 const HIGHLIGHT_CLASS = `${PREFIX}highlight`;
