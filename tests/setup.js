@@ -10,9 +10,18 @@ global.chrome = {
 
   runtime: {
     sendMessage: vi.fn(),
+
     onMessage: {
       addListener: vi.fn(),
       removeListener: vi.fn(),
     },
+
+    onInstalled: {
+      addListener: vi.fn(),
+    },
+
+    getManifest: vi.fn(() => ({
+      version: "1.0.0",
+    })),
   },
 };

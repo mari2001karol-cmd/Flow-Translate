@@ -68,7 +68,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
  * @param {object} message - { text, sourceLang, targetLang }
  * @param {function} sendResponse - Callback para enviar resposta
  */
-async function handleTranslateRequest(message, sendResponse) {
+export async function handleTranslateRequest(message, sendResponse) {
   const { text, sourceLang, targetLang } = message;
 
   // Validação
