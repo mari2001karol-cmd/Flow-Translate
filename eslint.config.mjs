@@ -94,6 +94,7 @@ export default [
       sourceType: "module",
       globals: {
         ...globals.node,
+        chrome: "readonly",
       },
     },
     rules: {
