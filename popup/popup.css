@@ -33,7 +33,8 @@
   --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3);
 
   /* Tipografia */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   /* Espaçamento */
   --space-xs: 4px;
@@ -75,8 +76,16 @@ body {
 
   /* Gradiente sutil de fundo */
   background-image:
-    radial-gradient(ellipse at top right, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom left, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
+    radial-gradient(
+      ellipse at top right,
+      rgba(99, 102, 241, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at bottom left,
+      rgba(6, 182, 212, 0.06) 0%,
+      transparent 50%
+    );
 }
 
 /* Acessibilidade - classe visualmente oculta */
@@ -97,7 +106,11 @@ body {
   padding: var(--space-lg) var(--space-xl);
   text-align: center;
   border-bottom: 1px solid var(--border-glass);
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.1) 0%,
+    rgba(6, 182, 212, 0.05) 100%
+  );
 }
 
 .header__brand {
@@ -118,7 +131,11 @@ body {
 .header__title {
   font-size: 18px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--color-primary-light), var(--color-accent));
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-light),
+    var(--color-accent)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -231,7 +248,9 @@ body {
 .translator__textarea:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), var(--shadow-glow);
+  box-shadow:
+    0 0 0 3px rgba(99, 102, 241, 0.15),
+    var(--shadow-glow);
 }
 
 .translator__input-footer {
@@ -276,7 +295,11 @@ body {
   font-size: 14px;
   font-weight: 600;
   color: white;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-primary-dark)
+  );
   border: none;
   border-radius: var(--radius-md);
   cursor: pointer;
@@ -287,13 +310,18 @@ body {
 }
 
 .translator__translate-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
@@ -327,7 +355,7 @@ body {
 }
 
 .translator__translate-btn--loading::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 20px;
   height: 20px;
@@ -338,7 +366,9 @@ body {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ---- OUTPUT ---- */
@@ -365,7 +395,11 @@ body {
 
 .translator__output--has-text {
   border-color: rgba(6, 182, 212, 0.3);
-  background: linear-gradient(135deg, var(--bg-secondary), rgba(6, 182, 212, 0.05));
+  background: linear-gradient(
+    135deg,
+    var(--bg-secondary),
+    rgba(6, 182, 212, 0.05)
+  );
 }
 
 .translator__output-footer {
@@ -450,7 +484,11 @@ body {
   font-size: 11px;
   font-weight: 700;
   color: white;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-accent)
+  );
   border-radius: var(--radius-full);
 }
 
@@ -476,7 +514,9 @@ body {
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
   border-left: 3px solid var(--color-primary);
-  animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+  animation:
+    toastIn 0.3s ease,
+    toastOut 0.3s ease 2.7s forwards;
   white-space: nowrap;
 }
 
@@ -489,18 +529,35 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes toastIn {
-  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 @keyframes toastOut {
-  from { opacity: 1; }
-  to { opacity: 0; transform: translateY(-10px); }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }
 
 /* ---- Scrollbar customizada ---- */
@@ -519,4 +576,44 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
+}
+/* ==============================================
+   Novos estilos para o Rodapé e Configurações
+   ============================================== */
+
+/* Alinha os botões em linha (lado a lado) e deixa um espaço entre eles */
+.footer__buttons-container {
+  display: flex;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+/* Ajusta o botão de baralhos para ocupar o máximo de espaço disponível */
+.footer__decks-btn {
+  flex: 1;
+}
+
+/* Estiliza o novo botão de configurações */
+.footer__settings-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px; /* Largura fixa para ele ser um quadradinho perfeito */
+  padding: var(--space-md);
+  font-size: 16px;
+  background: var(--bg-secondary);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+/* Efeito visual de quando passa o mouse no botão de configurações */
+.footer__settings-btn:hover {
+  color: var(--color-primary-light);
+  border-color: var(--color-primary);
+  border-style: solid;
+  background: rgba(99, 102, 241, 0.08);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }

@@ -4,11 +4,9 @@
   "version": "1.0.0",
   "description": "Ferramenta de estudo de idiomas com tradutor integrado e sistema de flashcards diretamente na navegação.",
 
-  "permissions": [
-    "storage",
-    "activeTab",
-    "scripting"
-  ],
+  "permissions": ["storage", "activeTab", "scripting"],
+
+  "host_permissions": ["https://translate.googleapis.com/*"],
 
   "action": {
     "default_popup": "popup/popup.html",

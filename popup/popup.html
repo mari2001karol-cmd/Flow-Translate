@@ -1,102 +1,160 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flow Translate</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="popup.css">
-</head>
-<body>
-  <header class="header" id="header">
-    <div class="header__brand">
-      <img src="../icons/icon48.png" alt="Flow Translate" class="header__icon">
-      <h1 class="header__title">Flow Translate</h1>
-    </div>
-    <p class="header__subtitle">Aprenda idiomas enquanto navega</p>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flow Translate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="header" id="header">
+      <div class="header__brand">
+        <img
+          src="../icons/icon48.png"
+          alt="Flow Translate"
+          class="header__icon"
+        />
+        <h1 class="header__title">Flow Translate</h1>
+      </div>
+      <p class="header__subtitle">Aprenda idiomas enquanto navega</p>
+    </header>
 
-  <main class="translator" id="translator-section">
-    <div class="lang-bar" id="lang-bar">
-      <div class="lang-bar__select-wrapper">
-        <label for="source-lang" class="sr-only">Idioma de origem</label>
-        <select id="source-lang" class="lang-bar__select">
-          <option value="auto">Detectar</option>
-          <option value="pt">Português</option>
-          <option value="en" selected>Inglês</option>
-          <option value="es">Espanhol</option>
-          <option value="fr">Francês</option>
-          <option value="de">Alemão</option>
-          <option value="it">Italiano</option>
-          <option value="ja">Japonês</option>
-          <option value="ko">Coreano</option>
-          <option value="zh">Chinês</option>
-          <option value="ru">Russo</option>
-        </select>
+    <main class="translator" id="translator-section">
+      <div class="lang-bar" id="lang-bar">
+        <div class="lang-bar__select-wrapper">
+          <label for="source-lang" class="sr-only">Idioma de origem</label>
+          <select id="source-lang" class="lang-bar__select">
+            <option value="auto">Detectar</option>
+            <option value="pt">Português</option>
+            <option value="en" selected>Inglês</option>
+            <option value="es">Espanhol</option>
+            <option value="fr">Francês</option>
+            <option value="de">Alemão</option>
+            <option value="it">Italiano</option>
+            <option value="ja">Japonês</option>
+            <option value="ko">Coreano</option>
+            <option value="zh">Chinês</option>
+            <option value="ru">Russo</option>
+          </select>
+        </div>
+
+        <button
+          id="swap-langs-btn"
+          class="lang-bar__swap"
+          title="Trocar idiomas"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="17 1 21 5 17 9"></polyline>
+            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+            <polyline points="7 23 3 19 7 15"></polyline>
+            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+          </svg>
+        </button>
+
+        <div class="lang-bar__select-wrapper">
+          <label for="target-lang" class="sr-only">Idioma de destino</label>
+          <select id="target-lang" class="lang-bar__select">
+            <option value="pt" selected>Português</option>
+            <option value="en">Inglês</option>
+            <option value="es">Espanhol</option>
+            <option value="fr">Francês</option>
+            <option value="de">Alemão</option>
+            <option value="it">Italiano</option>
+            <option value="ja">Japonês</option>
+            <option value="ko">Coreano</option>
+            <option value="zh">Chinês</option>
+            <option value="ru">Russo</option>
+          </select>
+        </div>
       </div>
 
-      <button id="swap-langs-btn" class="lang-bar__swap" title="Trocar idiomas">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="17 1 21 5 17 9"></polyline>
-          <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
-          <polyline points="7 23 3 19 7 15"></polyline>
-          <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
-        </svg>
+      <div class="translator__input-group">
+        <textarea
+          id="source-text"
+          class="translator__textarea"
+          placeholder="Digite ou cole o texto para traduzir..."
+          rows="4"
+          maxlength="5000"
+        ></textarea>
+        <div class="translator__input-footer">
+          <span id="char-count" class="translator__char-count">0 / 5000</span>
+          <button
+            id="clear-btn"
+            class="translator__clear-btn"
+            title="Limpar texto"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <button id="translate-btn" class="translator__translate-btn">
+        <span>Traduzir</span>
       </button>
 
-      <div class="lang-bar__select-wrapper">
-        <label for="target-lang" class="sr-only">Idioma de destino</label>
-        <select id="target-lang" class="lang-bar__select">
-          <option value="pt" selected>Português</option>
-          <option value="en">Inglês</option>
-          <option value="es">Espanhol</option>
-          <option value="fr">Francês</option>
-          <option value="de">Alemão</option>
-          <option value="it">Italiano</option>
-          <option value="ja">Japonês</option>
-          <option value="ko">Coreano</option>
-          <option value="zh">Chinês</option>
-          <option value="ru">Russo</option>
-        </select>
+      <div class="translator__output-group" id="output-group">
+        <div
+          id="translation-output"
+          class="translator__output"
+          aria-live="polite"
+        >
+          <p class="translator__output-placeholder">
+            A tradução aparecerá aqui...
+          </p>
+        </div>
+        <div class="translator__output-footer">
+          <button
+            id="copy-btn"
+            class="translator__action-btn"
+            title="Copiar tradução"
+            disabled
+          >
+            Copiar
+          </button>
+          <button
+            id="save-to-deck-btn"
+            class="translator__action-btn translator__action-btn--save"
+            title="Salvar no Baralho"
+            disabled
+          >
+            Salvar no Baralho
+          </button>
+        </div>
       </div>
-    </div>
+    </main>
 
-    <div class="translator__input-group">
-      <textarea id="source-text" class="translator__textarea"
-        placeholder="Digite ou cole o texto para traduzir..." rows="4" maxlength="5000"></textarea>
-      <div class="translator__input-footer">
-        <span id="char-count" class="translator__char-count">0 / 5000</span>
-        <button id="clear-btn" class="translator__clear-btn" title="Limpar texto">✕</button>
-      </div>
-    </div>
-
-    <button id="translate-btn" class="translator__translate-btn">
-      <span>Traduzir</span>
-    </button>
-
-    <div class="translator__output-group" id="output-group">
-      <div id="translation-output" class="translator__output" aria-live="polite">
-        <p class="translator__output-placeholder">A tradução aparecerá aqui...</p>
-      </div>
-      <div class="translator__output-footer">
-        <button id="copy-btn" class="translator__action-btn" title="Copiar tradução" disabled>Copiar</button>
-        <button id="save-to-deck-btn" class="translator__action-btn translator__action-btn--save" title="Salvar no Baralho" disabled>
-          Salvar no Baralho
+    <footer class="footer" id="footer">
+      <div class="footer__buttons-container">
+        <button id="manage-decks-btn" class="footer__decks-btn">
+          <span>📚 Baralhos</span>
+          <span id="deck-count" class="footer__badge">0</span>
+        </button>
+        <button
+          id="settings-btn"
+          class="footer__settings-btn"
+          title="Configurações da Extensão"
+        >
+          <span>⚙️</span>
         </button>
       </div>
-    </div>
-  </main>
+    </footer>
 
-  <footer class="footer" id="footer">
-    <button id="manage-decks-btn" class="footer__decks-btn">
-      <span>📚 Gerenciar Baralhos</span>
-      <span id="deck-count" class="footer__badge">0</span>
-    </button>
-  </footer>
-
-  <div id="toast-container" class="toast-container"></div>
-  <script src="popup.js"></script>
-</body>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="popup.js"></script>
+  </body>
 </html>

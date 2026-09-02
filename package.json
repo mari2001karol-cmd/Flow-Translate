@@ -1,0 +1,21 @@
+{
+  "name": "flow-translate",
+  "version": "1.0.0",
+  "description": "Extensão Chrome para estudo de idiomas com tradutor integrado e flashcards.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "validate:manifest": "node scripts/validate-manifest.js",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0",
+    "jsdom": "^27.1.0",
+    "vitest": "^4.1.7"
+  }
+}
