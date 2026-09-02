@@ -85,11 +85,11 @@ Error: 'chrome' is not defined  no-undef  (linhas 21, 36, 50, 73)
 
 ## Arquivos Alterados
 
-| Arquivo | Tipo de alteração |
-|---|---|
-| `background/popup/` | Removido (diretório inteiro) |
-| `content/content.js` | Removido comentário `/* global */` |
-| `eslint.config.mjs` | Adicionado `chrome: "readonly"` no bloco `utils` |
+| Arquivo              | Tipo de alteração                                |
+| -------------------- | ------------------------------------------------ |
+| `background/popup/`  | Removido (diretório inteiro)                     |
+| `content/content.js` | Removido comentário `/* global */`               |
+| `eslint.config.mjs`  | Adicionado `chrome: "readonly"` no bloco `utils` |
 
 ---
 
@@ -118,6 +118,7 @@ path/to/file.js
 ```
 
 Anote:
+
 - o **arquivo** afetado
 - a **regra** violada (ex: `no-undef`, `no-redeclare`, `prefer-const`)
 - a **linha** do erro
@@ -128,13 +129,13 @@ Anote:
 
 Abra `eslint.config.mjs` e localize qual bloco `files: [...]` cobre o caminho do arquivo.
 
-| Caminho do arquivo | Bloco correspondente |
-|---|---|
-| `popup/**/*.js` | globals de browser (`document`, `window`, etc.) |
+| Caminho do arquivo   | Bloco correspondente                              |
+| -------------------- | ------------------------------------------------- |
+| `popup/**/*.js`      | globals de browser (`document`, `window`, etc.)   |
 | `background/**/*.js` | globals de service worker (`self`, `fetch`, etc.) |
-| `content/**/*.js` | globals de browser + `chrome` + `NodeFilter` |
-| `utils/**/*.js` | globals de Node + `chrome` |
-| `scripts/**/*.js` | globals de Node |
+| `content/**/*.js`    | globals de browser + `chrome` + `NodeFilter`      |
+| `utils/**/*.js`      | globals de Node + `chrome`                        |
+| `scripts/**/*.js`    | globals de Node                                   |
 
 Se o arquivo **não se encaixa** no bloco que o captura, o problema pode ser de **localização errada do arquivo** (como aconteceu no incidente acima).
 

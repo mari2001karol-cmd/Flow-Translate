@@ -81,32 +81,73 @@ async function renderDecks() {
     const deckElement = document.createElement("div");
 
     deckElement.className = "deck";
-
     deckElement.innerHTML = `
-      <div class="deck-name">
-        ${deck.name}
-      </div>
+  <div class="deck-name">
+    ${deck.name}
+  </div>
 
-      <div class="deck-count">
-        ${deck.cards.length} cards
-      </div>
+  <div class="deck-count">
+    ${deck.cards.length} cards
+  </div>
 
-      <div class="deck-actions">
+  <div class="deck-actions">
 
-        <button class="rename-deck-btn">
-          ✏️ Renomear
-        </button>
+    <button class="rename-deck-btn">
+      ✏️ Renomear
+    </button>
 
-        <button class="reset-deck-btn">
-          ♻️ Redefinir
-        </button>
+    <button class="reset-deck-btn">
+      ♻️ Redefinir
+    </button>
 
-        <button class="delete-deck-btn">
-          🗑️ Excluir
-        </button>
+    <button class="delete-deck-btn">
+      🗑️ Excluir
+    </button>
 
-      </div>
-    `;
+  </div>
+
+  <div class="deck-cards">
+    ${
+      deck.cards.length === 0
+        ? "<p class='empty-cards'>Nenhum card neste baralho.</p>"
+        : deck.cards
+            .map(
+              (card) => `
+                <div class="card-item">
+                  <div class="card-content">
+                    <strong>${card.front}</strong>
+                    <span>${card.back}</span>
+                  </div>
+
+                  <button
+                    class="remove-card-btn"
+                    data-card-id="${card.id}"
+                  >
+                    ❌
+                  </button>
+                </div>
+              `,
+            )
+            .join("")
+    }
+  </div>
+`;
+
+    const removeCardButtons = deckElement.querySelectorAll(".remove-card-btn");
+
+    removeCardButtons.forEach((button) => {
+      button.addEventListener("click", async () => {
+        const cardId = button.dataset.cardId;
+
+        deck.cards = deck.cards.filter((card) => card.id !== cardId);
+
+        await chrome.storage.local.set({
+          decks,
+        });
+
+        renderDecks();
+      });
+    });
 
     const renameBtn = deckElement.querySelector(".rename-deck-btn");
 

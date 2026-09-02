@@ -42,6 +42,13 @@ async function initContentScript() {
       }
 
       applyHighlightColor(newSettings.highlightColor);
+
+      if (!newSettings.tooltipEnabled) {
+        document.removeEventListener("mouseup", handleMouseUp);
+      } else {
+        document.removeEventListener("mouseup", handleMouseUp);
+        document.addEventListener("mouseup", handleMouseUp);
+      }
     }
 
     if (changes.decks) {
